@@ -1,7 +1,7 @@
 // app/javascript/packs/application.js
 
 import Vue from 'vue'
-import App from '../app.vue'
+import App from '../components/App.vue'
 
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.body.appendChild(document.createElement('application'))
@@ -9,6 +9,4 @@ document.addEventListener('DOMContentLoaded', () => {
     el,
     render: h => h(App)
   })
-
-  console.log(app)
 })
