@@ -1,6 +1,6 @@
 <template>
   <section class="users-list">
-    <user-item v-for="user in users" :key="user.id" :user="user"></user-item>
+    <user-item v-for="user in usersFiltered" :key="user.id" :user="user"></user-item>
   </section>
 </template>
 <script>
@@ -22,6 +22,12 @@ export default {
     }
   },
   mounted () {
+  },
+  computed: {
+      usersFiltered () {
+          let us = this.users.map(u => Object.assign(u, { id: JSON.stringify(u) }))
+          return us.splice(0, 20)
+      }
   },
   methods: {
   }

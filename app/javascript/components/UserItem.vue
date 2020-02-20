@@ -1,7 +1,7 @@
 
 <template>
   <section class="user-item">
-      {{user}}
+      {{user.name}}
   </section>
 </template>
 <script>
@@ -29,7 +29,7 @@ export default {
 <style scoped>
 
 .user-item {
-
+  height: 135px;
 }
 
 </style>
