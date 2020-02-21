@@ -49,6 +49,8 @@ export default {
 
 html {
   box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 14px;
 }
 *, *:before, *:after {
   box-sizing: inherit;
