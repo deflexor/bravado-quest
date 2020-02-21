@@ -3,7 +3,7 @@
     <section class="main">
       <search-field v-model="searchText" @input="onSearch"></search-field>
       <div v-if="error" class="error">{{error}}</div>
-      <user-list :users="users"></user-list>      
+      <user-list :users="usersF"></user-list>
     </section>
   </div>
 </template>
@@ -26,7 +26,17 @@ export default {
     }
   },
   mounted () {
+    this.updateFilter()
     this.fetchAllUsers()
+  },
+  computed: {
+    usersF () {
+      const re = new RegExp('^' + this.searchText + '.*$')
+      for (let i = 0; i < this.users.length; i++) {
+        const u = this.users[i];
+        u.show = this.searchText && re.test(u.name) 
+      }
+    }
   },
   methods: {
     async fetchAllUsers () {
@@ -38,8 +48,19 @@ export default {
         console.log(e)
       }
     },
+    updateFilter () {
+      let m = document.location.href.match(new RegExp('^' + window.ROOT_URL + 'search/(.+)$'))
+      if (m !== null) {
+        this.searchText = m[1]
+      }
+    },
     onSearch (v) {
-      console.log('onSearch', v)
+      if (v !== '') {
+        window.history.pushState('', '', window.ROOT_URL + 'search/' + v)
+        // this.updateFilter()
+      } else {
+        window.history.pushState('', '', window.ROOT_URL)
+      }
     }
   }
 }

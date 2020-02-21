@@ -1,7 +1,7 @@
 
 <template>
   <section class="user-item">
-      <img :src="user.avatar" class="user-item-avatar">
+      <img :src="'/possimusdoloresid.png'" class="user-item-avatar">
       <div class="user-item-info">
         <div class="user-item-info-top">
           <div class="user-item-info-top-center">
