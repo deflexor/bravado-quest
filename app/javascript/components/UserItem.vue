@@ -1,7 +1,7 @@
 
 <template>
-  <section class="user-item">
-      <img :src="'/possimusdoloresid.png'" class="user-item-avatar">
+  <section :class="{ 'user-item': true, 'has-blue-border': selected }">
+      <img :data-src="user.avatar" class="user-item-avatar lozad">
       <div class="user-item-info">
         <div class="user-item-info-top">
           <div class="user-item-info-top-center">
@@ -10,7 +10,6 @@
             <div class="user-item-address">{{user.address}}</div>
           </div>
           <div class="user-item-email">{{user.email}}</div>
-          
         </div>
         <div :class="{ 'user-item-info-bottom': true, 'has-border-top': !selected }">
           <a href="" @click.prevent="selectionClicked">{{selected ? 'skip selection' : 'mark as suitable'}}</a>
@@ -20,6 +19,7 @@
 </template>
 <script>
 
+import lozad from 'lozad'
 import UserItem from './UserItem'
 
 export default {
@@ -38,10 +38,13 @@ export default {
     }
   },
   mounted () {
+    // lazy loading of images
+    const observer = lozad()
+    observer.observe()
   },
   methods: {
     selectionClicked () {
-      this.$emit('selection', !this.selected)
+      this.$emit('selection', this.user.id, !this.selected)
     }
   }
 }
@@ -52,6 +55,7 @@ export default {
 a {
   color: inherit;
   text-decoration: none;
+  outline: none;
 }
 
 .user-item {
@@ -66,11 +70,11 @@ a {
 }
 
 .user-item-avatar {
-  height: 135px;
   width: 135px;
   background-color: #bbbbbb;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
+  flex-shrink: 0;
 }
 
 .user-item-name {
@@ -127,6 +131,11 @@ a {
 
 .has-border-top {
   border-top: 1px solid #dcdcdc;
+}
+
+.has-blue-border {
+  box-shadow: none;
+  border: 1px solid blue;
 }
 
 </style>

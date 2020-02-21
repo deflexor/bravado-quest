@@ -1,6 +1,6 @@
 <template>
   <section class="users-list">
-    <user-item v-for="user in users" :key="`${user.name}_${user.email}`" :user="user" v-show="user.show"></user-item>
+    <user-item v-for="user in users" :key="user.id" :user="user" :selected="selectedItem === user.id" v-show="user.show" @selection="onItemSelected"></user-item>
   </section>
 </template>
 <script>
@@ -14,30 +14,18 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      selectedItem: null
+    }
+  },
   components: {
       UserItem
   },
-  data() {
-    return {
-    }
-  },
-  mounted () {
-  },
-  computed: {
-      usersFiltered () {
-          let us = this.users.map(u => Object.assign(u, { id: JSON.stringify(u) }))
-          return us
-      }
-  },
   methods: {
+    onItemSelected (id, selected) {
+      this.selectedItem = selected ? id : null
+    }
   }
 }
 </script>
-
-<style scoped>
-
-.users-list {
-
-}
-
-</style>

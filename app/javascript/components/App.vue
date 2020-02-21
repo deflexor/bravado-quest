@@ -31,18 +31,24 @@ export default {
   },
   computed: {
     usersF () {
-      const re = new RegExp('^' + this.searchText + '.*$')
+      const re = new RegExp('^.*' + this.searchText + '.*$', 'i')
       for (let i = 0; i < this.users.length; i++) {
         const u = this.users[i];
-        u.show = this.searchText && re.test(u.name) 
+        u.show = this.searchText ? re.test(u.name) : true
       }
+      return this.users
     }
   },
   methods: {
     async fetchAllUsers () {
       try {
         let resp = await axios('/users')
-        this.users = resp.data
+        // add extra fields to every user object
+        for (let i = 0; i < resp.data.length; i++) {
+          resp.data[i].show = true
+          resp.data[i].id = `${resp.data[i].name}_${resp.data[i].email}`
+        }
+        this.users = resp.data.slice(0, 500)
       } catch (e) {
         this.error = 'Error getting users!'
         console.log(e)
@@ -57,7 +63,6 @@ export default {
     onSearch (v) {
       if (v !== '') {
         window.history.pushState('', '', window.ROOT_URL + 'search/' + v)
-        // this.updateFilter()
       } else {
         window.history.pushState('', '', window.ROOT_URL)
       }
